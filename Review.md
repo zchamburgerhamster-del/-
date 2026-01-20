@@ -35,7 +35,20 @@
 </br>
 <img width="593" height="175" alt="image" src="https://github.com/user-attachments/assets/5b8b5f9f-8d58-4c71-ad4d-1245d4ccaf8a" />
 </br>
-这里可以理解为<img width="47" height="37" alt="image" src="https://github.com/user-attachments/assets/85fdf20e-061c-498b-a4f7-3b7566ffa371" />为平均奖励，k轮后的平均奖励，这里可理解为前k-1轮的奖励再加上k轮单独的奖励除以k轮
+这里可以理解为<img width="47" height="37" alt="image" src="https://github.com/user-attachments/assets/85fdf20e-061c-498b-a4f7-3b7566ffa371" />为平均奖励，k轮后的平均奖励，这里可理解为前k-1轮的奖励再加上k轮单独的奖励除以k轮，将每一轮的奖励平均到每一轮
+</br>
+编写代码来实现一个拉杆数为 10 的多臂老虎机。其中拉动每根拉杆的奖励服从伯努利分布（Bernoulli distribution），即每次拉下拉杆有p的概率获得的奖励为 1，有的1-p概率获得的奖励为 0。奖励为 1 代表获奖，奖励为 0 代表没有获奖。
+</br>
+<img width="973" height="777" alt="image" src="https://github.com/user-attachments/assets/3904f9fc-98fc-40d4-bcea-cd5697eae45b" />
+</br>
+代码解释1：self.best_idx = np.argmax(self.probs) argmax返回的是编号
+</br>
+代码解释2：self.best_prob = self.probs[self.best_idx]  通过索引来获得最大概率
+</br>
+代码解释3：if np.random.rand() < self.probs[k]: return 1  功能：生成一个 [0,1) 的随机浮点数用来模拟一次随机试验
+概率大于随机数即中奖
+</br>
+
 
 
 
