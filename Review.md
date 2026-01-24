@@ -48,9 +48,61 @@
 代码解释3：if np.random.rand() < self.probs[k]: return 1  功能：生成一个 [0,1) 的随机浮点数用来模拟一次随机试验
 概率大于随机数即中奖
 </br>
-
-
-
-
-
-
+5.重点：E-贪心策略
+</br>
+探索(exploration):是指尝试拉动更多可能的拉杆，这根拉杆不一定会获得最大的奖励，但这种方案能够摸清楚所有拉杆的获奖情况。例如，对于一个 10 臂老虎机，我们要把所有的拉杆都拉动一下才知道哪根拉杆可能获得最大的奖励。
+</br>
+利用(exploitation)：是指拉动已知期望奖励最大的那根拉杆，由于已知的信息仅仅来自有限次的交互观测，所以当前的最优拉杆不一定是全局最优的。例如，对于一个 10 臂老虎机，我们只拉动过其中 3 根拉杆，接下来就一直拉动这 3 根拉杆中期望奖励最大的那根拉杆，但很有可能期望奖励最大的拉杆在剩下的 7 根当中，即使我们对 10 根拉杆各自都尝试了 20 次，发现 5 号拉杆的经验期望奖励是最高的，但仍然存在着微小的概率—另一根 6 号拉杆的真实期望奖励是比 5 号拉杆更高的。
+</br>
+完全贪婪算法即在每一时刻采取期望奖励估值最大的动作（拉动拉杆），这就是纯粹的利用，而没有探索，所以我们通常需要对完全贪婪算法进行一些修改，其中比较经典的一种方法为<img width="11" height="18" alt="image" src="https://github.com/user-attachments/assets/15418530-00a9-4f65-8d44-8d204336a53c" />-贪婪算法。该算法在完全贪婪算法的基础上增加了噪声，每次以概率1-E选择以往经验中期望奖励估值最大的那个拉杆（利用），以概率E随机选择一根拉杆进行探索，公式如下：
+</br>
+<img width="410" height="87" alt="image" src="https://github.com/user-attachments/assets/1c9ddfb5-3103-452b-a219-e591947ca17f" />
+</br>
+<img width="483" height="217" alt="image" src="https://github.com/user-attachments/assets/ef65ba92-067b-405b-9835-ba3ef804052b" />
+</br>
+#<h1 align="left">M3马尔可夫决策过程</h1>
+#<h2 align="left">M3.1马尔可夫过程</h2>
+1.随机过程
+</br>
+<img width="492" height="281" alt="image" src="https://github.com/user-attachments/assets/5b8d70d0-11ff-4317-9af6-a9ab5176d0a1" />
+</br>
+t+1时刻某状态及其其发生概率取决于1~t时刻的状态
+</br>
+2.马尔可夫性质
+</br>
+<img width="503" height="368" alt="image" src="https://github.com/user-attachments/assets/40513965-ea5e-4282-abe6-572dcaadc6f6" />
+</br>
+t+1时刻的状态只与t时刻有关但是这不是指与历史无关因为t中包含了t-1.t-1包含了t-2
+</br>
+3.马尔可夫过程
+</br>
+<img width="952" height="507" alt="image" src="https://github.com/user-attachments/assets/1b8cf43f-0067-490d-aab5-6d217f47911f" />
+</br>
+<img width="822" height="710" alt="image" src="https://github.com/user-attachments/assets/992b32ab-a49a-46f5-b3db-0a189b0583b5" />
+</br>
+根据状态转移矩阵写出的序列，这个过程也叫做采样，第n行就代表状态n。重点状态无出发
+</br>
+#<h2 align="left">M3.2马尔可夫奖励过程-MRP</h2>
+</br>
+<img width="476" height="457" alt="image" src="https://github.com/user-attachments/assets/bc5f2de9-88b8-42da-a5fe-a9568b422612" />
+</br>
+接近1的折扣因子关注长期累计奖励，接近0的折扣因子考虑短期奖励
+1。某点的回报：从某点开始出发每个状态点的奖励乘以折扣之和
+</br>
+<img width="493" height="176" alt="image" src="https://github.com/user-attachments/assets/31f5feb4-320c-47dd-bea1-f20b63f40430" />
+</br>
+<img width="508" height="541" alt="image" src="https://github.com/user-attachments/assets/4a99959a-1405-4295-a3ab-308001e0c419" />
+</br>
+2.价值函数
+价值（value）：在马尔可夫奖励过程中，一个状态的期望回报（即从这个状态出发的未来累积奖励的期望）被称为这个状态的价值（value）。所有状态的价值就组成了价值函数（value function），价值函数的输入为某个状态，输出为这个状态的价值。
+价值就是累积的回报的期望值公式为：
+</br>
+<img width="503" height="396" alt="image" src="https://github.com/user-attachments/assets/d210ac64-0974-40d5-8a4d-11d80a6d2f66" />
+</br>
+公式理解：某点的价值等于[本状态的奖励+折扣因子X上一个状态的价值]即
+贝尔曼方程[***无敌重点***]
+</br>
+<img width="487" height="380" alt="image" src="https://github.com/user-attachments/assets/901630a9-bce6-4a0d-a926-ac87ae3aab7a" />
+</br>
+贝尔曼方程：本状态价值=本状态的奖励+折扣因子X从本状态出发到达所有点的概率X本状态后继的价值
+#<h2 align="left">M3.3马尔可夫决策过程</h2>
